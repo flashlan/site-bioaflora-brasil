@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Início - Bio Aflora Brasil{% endblock %}
+
+{% block content %}
+<div class="hero-section bg-success text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold mb-4">Bio Aflora Brasil</h1>
+                    <p class="lead mb-4">
+                        Especializada em produtos de erva-mate premium (Ilex Paraguariensis), 
+                        unindo tradição, qualidade e sustentabilidade na proteção da erva-mate nativa.
+                    </p>
+                    <a href="{{ url_for('saiba_mais') }}" class="btn btn-light btn-lg">Conheça Nossos Produtos</a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="mate-icon">🧉</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="icon-circle bg-success text-white mb-3">🌱</div>
+                    <h5 class="card-title">Chá-Mate Premium</h5>
+                    <p class="card-text">
+                        Chá-mate de alta qualidade, com sabor autêntico e propriedades naturais preservadas.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="icon-circle bg-success text-white mb-3">🧉</div>
+                    <h5 class="card-title">Erva para Chimarrão</h5>
+                    <p class="card-text">
+                        Erva-mate tradicional para chimarrão, moída na medida certa para o sabor perfeito.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="icon-circle bg-success text-white mb-3">🍃</div>
+                    <h5 class="card-title">Ervas com Sabor</h5>
+                    <p class="card-text">
+                        Variedades especiais com sabores naturais, mantendo a essência da erva-mate.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4">Sustentabilidade em Primeiro Lugar</h2>
+                <p class="mb-3">
+                    Nossa missão vai além da produção de erva-mate de qualidade. Trabalhamos 
+                    ativamente na proteção e preservação da erva-mate nativa da nossa região.
+                </p>
+                <ul class="list-unstyled">
+                    <li class="mb-2">✓ Cultivo sustentável</li>
+                    <li class="mb-2">✓ Proteção da mata nativa</li>
+                    <li class="mb-2">✓ Práticas ambientalmente responsáveis</li>
+                    <li class="mb-2">✓ Apoio às comunidades locais</li>
+                </ul>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="sustainability-icon">🌳</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+Para adicionar imagem de fundo no cabeçalho:
+
+1. Adicione sua imagem com o nome "hero-bg.jpg" nesta pasta
+2. A imagem será automaticamente aplicada como fundo do cabeçalho
+3. Recomendações para melhor resultado:
+   - Resolução: 1920x1080 ou superior
+   - Formato: JPG ou PNG
+   - Tema: relacionado à erva-mate, natureza, folhas verdes
+   - Qualidade: alta, mas otimizada para web
+
+Exemplo de imagens que funcionariam bem:
+- Plantação de erva-mate
+- Folhas de Ilex paraguariensis
+- Paisagem natural com tons verdes
+- Textura de folhas
+- Chimarrão em ambiente natural
+
+A imagem será aplicada com:
+- Efeito parallax (movimento suave no scroll)
+- Opacidade reduzida para não interferir no texto
+- Posição fixa para melhor performance
+- Cobertura total da seção hero
