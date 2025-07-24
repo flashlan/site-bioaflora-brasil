@@ -31,5 +31,9 @@ def contato():
 def sobre_nos():
     return render_template('sobre_nos.html')
 
+@app.route('/blog')
+def blog():
+    return render_template('blog.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

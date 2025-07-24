@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block title %}Bio Aflora Brasil - Blog{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-section">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">🏠 Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page">📝 Blog</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold">📝 Blog Sustentável</h1>
+        <p class="lead">Artigos sobre sustentabilidade, erva-mate e preservação ambiental</p>
+    </div>
+
+    <div class="row">
+        <!-- Featured Article -->
+        <div class="col-lg-8 mb-4">
+            <article class="featured-article">
+                <div class="article-image">
+                    <div class="article-badge">📌 Destaque</div>
+                    <div class="placeholder-image">🌿</div>
+                </div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="date">📅 20 de Janeiro, 2024</span>
+                        <span class="category">🏷️ Sustentabilidade</span>
+                    </div>
+                    <h2><a href="#" class="article-title">A Importância da Preservação da Mata Atlântica para a Erva-Mate</a></h2>
+                    <p class="article-excerpt">
+                        Descubra como a preservação da Mata Atlântica é fundamental para manter a qualidade 
+                        e sustentabilidade da erva-mate. Nossa empresa trabalha ativamente na proteção 
+                        deste bioma essencial para o futuro da Ilex paraguariensis.
+                    </p>
+                    <a href="#" class="btn btn-success">Ler Mais</a>
+                </div>
+            </article>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="sidebar">
+                <!-- Categories -->
+                <div class="sidebar-widget">
+                    <h5 class="widget-title">📂 Categorias</h5>
+                    <ul class="category-list">
+                        <li><a href="#">🌱 Sustentabilidade</a> <span>(8)</span></li>
+                        <li><a href="#">🧉 Erva-Mate</a> <span>(12)</span></li>
+                        <li><a href="#">🌳 Meio Ambiente</a> <span>(6)</span></li>
+                        <li><a href="#">👥 Comunidade</a> <span>(4)</span></li>
+                        <li><a href="#">🔬 Pesquisa</a> <span>(3)</span></li>
+                    </ul>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="sidebar-widget">
+                    <h5 class="widget-title">📰 Posts Recentes</h5>
+                    <div class="recent-posts">
+                        <div class="recent-post">
+                            <div class="post-thumb">🌾</div>
+                            <div class="post-info">
+                                <h6><a href="#">Cultivo Orgânico: O Futuro da Erva-Mate</a></h6>
+                                <small>15 Jan, 2024</small>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="post-thumb">♻️</div>
+                            <div class="post-info">
+                                <h6><a href="#">Embalagens Sustentáveis: Nossa Nova Iniciativa</a></h6>
+                                <small>10 Jan, 2024</small>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="post-thumb">🤝</div>
+                            <div class="post-info">
+                                <h6><a href="#">Parcerias com Comunidades Locais</a></h6>
+                                <small>05 Jan, 2024</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Grid -->
+    <div class="row mt-5">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <article class="blog-card">
+                <div class="card-image">
+                    <div class="placeholder-image">🌱</div>
+                    <div class="card-category">Sustentabilidade</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span>📅 18 Jan, 2024</span>
+                        <span>👤 Bio Aflora</span>
+                    </div>
+                    <h5><a href="#">Como Reduzir o Impacto Ambiental no Cultivo</a></h5>
+                    <p>Técnicas sustentáveis que utilizamos para minimizar o impacto no meio ambiente...</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <article class="blog-card">
+                <div class="card-image">
+                    <div class="placeholder-image">🧉</div>
+                    <div class="card-category">Erva-Mate</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span>📅 16 Jan, 2024</span>
+                        <span>👤 Bio Aflora</span>
+                    </div>
+                    <h5><a href="#">Os Benefícios Nutricionais da Erva-Mate</a></h5>
+                    <p>Descubra as propriedades nutritivas e benefícios para a saúde da Ilex paraguariensis...</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <article class="blog-card">
+                <div class="card-image">
+                    <div class="placeholder-image">🌳</div>
+                    <div class="card-category">Meio Ambiente</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span>📅 14 Jan, 2024</span>
+                        <span>👤 Bio Aflora</span>
+                    </div>
+                    <h5><a href="#">Reflorestamento: Nossa Contribuição</a></h5>
+                    <p>Conheça nossos projetos de reflorestamento e recuperação de áreas degradadas...</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <article class="blog-card">
+                <div class="card-image">
+                    <div class="placeholder-image">🔬</div>
+                    <div class="card-category">Pesquisa</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span>📅 12 Jan, 2024</span>
+                        <span>👤 Bio Aflora</span>
+                    </div>
+                    <h5><a href="#">Inovações no Processamento Sustentável</a></h5>
+                    <p>Novas tecnologias que aplicamos para processar erva-mate de forma mais sustentável...</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <article class="blog-card">
+                <div class="card-image">
+                    <div class="placeholder-image">👥</div>
+                    <div class="card-category">Comunidade</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span>📅 10 Jan, 2024</span>
+                        <span>👤 Bio Aflora</span>
+                    </div>
+                    <h5><a href="#">Apoio às Famílias Produtoras</a></h5>
+                    <p>Como trabalhamos em parceria com famílias locais para fortalecer a comunidade...</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <article class="blog-card">
+                <div class="card-image">
+                    <div class="placeholder-image">📈</div>
+                    <div class="card-category">Sustentabilidade</div>
+                </div>
+                <div class="card-body">
+                    <div class="card-meta">
+                        <span>📅 08 Jan, 2024</span>
+                        <span>👤 Bio Aflora</span>
+                    </div>
+                    <h5><a href="#">Relatório de Sustentabilidade 2023</a></h5>
+                    <p>Confira nossos resultados e metas alcançadas em sustentabilidade durante 2023...</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">Próximo</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}

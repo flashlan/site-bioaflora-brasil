@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Sobre Nós - Bio Aflora Brasil{% endblock %}
+{% block title %}Bio Aflora Brasil - Sobre Nós{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-section">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">🏠 Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page">👥 Sobre Nós</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
 <div class="container py-5">

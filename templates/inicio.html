@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Início - Bio Aflora Brasil{% endblock %}
+{% block title %}Bio Aflora Brasil - Início{% endblock %}
 
 {% block content %}
 <div class="hero-section bg-success text-white py-5">
@@ -23,41 +23,149 @@
     </div>
 </div>
 
+<!-- Products Gallery -->
 <div class="container py-5">
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="icon-circle bg-success text-white mb-3">🌱</div>
-                    <h5 class="card-title">Chá-Mate Premium</h5>
-                    <p class="card-text">
-                        Chá-mate de alta qualidade, com sabor autêntico e propriedades naturais preservadas.
-                    </p>
+    <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-3">Nossos Produtos Premium</h2>
+        <p class="lead text-muted">Descubra nossa linha completa de produtos de erva-mate sustentáveis</p>
+    </div>
+    
+    <!-- Product Carousel -->
+    <div id="productsCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#productsCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#productsCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#productsCarousel" data-bs-slide-to="2"></button>
+        </div>
+        
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">🌱</div>
+                            <h4>Chá-Mate Premium</h4>
+                            <p>Chá-mate de alta qualidade com sabor autêntico e propriedades naturais preservadas.</p>
+                            <div class="product-features">
+                                <span class="badge">100% Natural</span>
+                                <span class="badge">Premium</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">🧉</div>
+                            <h4>Erva para Chimarrão</h4>
+                            <p>Erva-mate tradicional moída na medida certa para o sabor perfeito do chimarrão.</p>
+                            <div class="product-features">
+                                <span class="badge">Tradicional</span>
+                                <span class="badge">Artesanal</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">🍃</div>
+                            <h4>Ervas com Sabor</h4>
+                            <p>Variedades especiais com sabores naturais, mantendo a essência da erva-mate.</p>
+                            <div class="product-features">
+                                <span class="badge">Sabores</span>
+                                <span class="badge">Especial</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-item">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">🌿</div>
+                            <h4>Mate com Limão</h4>
+                            <p>Refrescante combinação de erva-mate premium com essência natural de limão.</p>
+                            <div class="product-features">
+                                <span class="badge">Cítrico</span>
+                                <span class="badge">Refrescante</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">🌺</div>
+                            <h4>Mate com Camomila</h4>
+                            <p>Blend suave e relaxante, perfeito para momentos de tranquilidade.</p>
+                            <div class="product-features">
+                                <span class="badge">Relaxante</span>
+                                <span class="badge">Suave</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">🍊</div>
+                            <h4>Mate com Laranja</h4>
+                            <p>Sabor tropical e energizante com essência natural de laranja.</p>
+                            <div class="product-features">
+                                <span class="badge">Tropical</span>
+                                <span class="badge">Energizante</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-item">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">🌾</div>
+                            <h4>Mate Orgânico</h4>
+                            <p>Cultivado sem agrotóxicos, certificado orgânico para máxima pureza.</p>
+                            <div class="product-features">
+                                <span class="badge">Orgânico</span>
+                                <span class="badge">Certificado</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">⭐</div>
+                            <h4>Mate Premium Gold</h4>
+                            <p>Nossa seleção mais especial, com folhas selecionadas à mão.</p>
+                            <div class="product-features">
+                                <span class="badge">Exclusivo</span>
+                                <span class="badge">Gold</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="product-showcase">
+                            <div class="product-image">🎁</div>
+                            <h4>Kit Degustação</h4>
+                            <p>Conjunto perfeito para conhecer toda nossa linha de produtos.</p>
+                            <div class="product-features">
+                                <span class="badge">Kit</span>
+                                <span class="badge">Degustação</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="icon-circle bg-success text-white mb-3">🧉</div>
-                    <h5 class="card-title">Erva para Chimarrão</h5>
-                    <p class="card-text">
-                        Erva-mate tradicional para chimarrão, moída na medida certa para o sabor perfeito.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <div class="icon-circle bg-success text-white mb-3">🍃</div>
-                    <h5 class="card-title">Ervas com Sabor</h5>
-                    <p class="card-text">
-                        Variedades especiais com sabores naturais, mantendo a essência da erva-mate.
-                    </p>
-                </div>
-            </div>
-        </div>
+        
+        <button class="carousel-control-prev" type="button" data-bs-target="#productsCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#productsCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+    
+    <!-- Call to Action -->
+    <div class="text-center">
+        <a href="{{ url_for('saiba_mais') }}" class="btn btn-success btn-lg me-3">Ver Todos os Produtos</a>
+        <a href="{{ url_for('contato') }}" class="btn btn-outline-success btn-lg">Solicitar Orçamento</a>
     </div>
 </div>
 

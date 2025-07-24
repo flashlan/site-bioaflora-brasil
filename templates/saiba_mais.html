@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Saiba Mais - Bio Aflora Brasil{% endblock %}
+{% block title %}Bio Aflora Brasil - Saiba Mais{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-section">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">🏠 Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page">📖 Saiba Mais</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
 <div class="container py-5">
@@ -110,6 +123,126 @@
                             sempre respeitando o meio ambiente e a qualidade natural da erva-mate.
                         </p>
                     </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section mt-5">
+                <h3 class="text-success mb-4 text-center">❓ Perguntas Frequentes</h3>
+                <div class="accordion" id="faqAccordion">
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                🌿 Qual a diferença entre erva-mate para chimarrão e chá-mate?
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                A erva-mate para chimarrão possui moagem mais grossa e inclui talos, sendo consumida em cuia com bomba. 
+                                O chá-mate tem moagem mais fina, sem talos, e é preparado como infusão em água quente, servido em xícara.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                🧉 Como preparar o chimarrão corretamente?
+                            </button>
+                        </h2>
+                        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                1. Coloque a erva-mate na cuia até 2/3 de sua capacidade<br>
+                                2. Tampe com a mão e vire a cuia para um lado<br>
+                                3. Volte a cuia na posição normal, criando um "buraco"<br>
+                                4. Adicione água morna (70°C) no buraco<br>
+                                5. Insira a bomba no local umedecido<br>
+                                6. Complete com água quente (não fervente)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                ♻️ Por que a Bio Aflora é sustentável?
+                            </button>
+                        </h2>
+                        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Trabalhamos com práticas que preservam a mata nativa, não utilizamos agrotóxicos em nossa linha orgânica, 
+                                apoiamos comunidades locais e mantemos certificações ambientais. Nosso processo respeita os ciclos naturais 
+                                da erva-mate para garantir a regeneração das plantas.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                                📦 Como funcionam as entregas?
+                            </button>
+                        </h2>
+                        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Entregamos em todo o Brasil através de nossos parceiros logísticos. O prazo varia de 3 a 10 dias úteis 
+                                dependendo da região. Oferecemos frete grátis para compras acima de R$ 80,00. 
+                                Você recebe código de rastreamento por email.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq5">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
+                                ⭐ Qual a validade dos produtos?
+                            </button>
+                        </h2>
+                        <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Nossos produtos têm validade de 24 meses quando armazenados em local seco, arejado e ao abrigo da luz. 
+                                Após abertos, recomendamos consumo em até 6 meses para manter o sabor e propriedades ideais. 
+                                Todas as embalagens indicam a data de fabricação e validade.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq6">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6">
+                                🌡️ Qual a temperatura ideal da água?
+                            </button>
+                        </h2>
+                        <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Para chimarrão: água entre 70°C e 80°C (nunca fervente)<br>
+                                Para chá-mate: água entre 80°C e 90°C<br>
+                                Água muito quente "queima" a erva, deixando o sabor amargo e destruindo nutrientes. 
+                                Use termômetro ou deixe a água esfriar por 2-3 minutos após ferver.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq7">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7">
+                                💰 Vocês oferecem desconto para compras grandes?
+                            </button>
+                        </h2>
+                        <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sim! Oferecemos preços especiais para revendedores, cooperativas e compras acima de 10kg. 
+                                Entre em contato conosco pelo WhatsApp ou formulário para solicitar um orçamento personalizado. 
+                                Também temos programa de fidelidade para clientes regulares.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-center mt-4">
+                    <p class="text-muted">Não encontrou sua dúvida? <a href="{{ url_for('contato') }}" class="text-success">Entre em contato conosco!</a></p>
                 </div>
             </div>
         </div>

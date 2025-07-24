@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Bio Aflora Brasil{% endblock %}</title>
     <meta name="theme-color" content="#10b981">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.svg') }}">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
@@ -18,12 +24,15 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('inicio') }}">Início</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('saiba_mais') }}">Saiba Mais</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('blog') }}">Blog</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('contato') }}">Contato</a>
@@ -32,6 +41,18 @@
                         <a class="nav-link" href="{{ url_for('sobre_nos') }}">Sobre Nós</a>
                     </li>
                 </ul>
+                
+                <!-- Search Form -->
+                <form class="d-flex search-form" role="search" id="searchForm">
+                    <div class="search-container">
+                        <input class="form-control search-input" type="search" placeholder="Buscar..." id="searchInput">
+                        <button class="btn search-btn" type="submit">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </nav>
@@ -50,22 +71,103 @@
             {% endif %}
         {% endwith %}
 
+        {% block breadcrumbs %}{% endblock %}
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="py-4 mt-5">
+    <footer class="py-5 mt-5">
         <div class="container">
+            <!-- Newsletter Section -->
+            <div class="row mb-4">
+                <div class="col-lg-8 mx-auto text-center">
+                    <div class="newsletter-section">
+                        <h4 class="mb-3">🌿 Receba Novidades Sustentáveis</h4>
+                        <p class="mb-4">Fique por dentro das novidades sobre erva-mate, sustentabilidade e produtos exclusivos da Bio Aflora Brasil.</p>
+                        <form class="newsletter-form" id="newsletterForm">
+                            <div class="input-group">
+                                <input type="email" class="form-control newsletter-input" 
+                                       placeholder="Seu melhor e-mail" 
+                                       required id="newsletterEmail">
+                                <button class="btn btn-success newsletter-btn" type="submit">
+                                    <span class="newsletter-text">Inscrever-se</span>
+                                    <span class="newsletter-loading" style="display: none;">
+                                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                                    </span>
+                                </button>
+                            </div>
+                            <small class="text-muted mt-2 d-block">
+                                📧 Respeitamos sua privacidade. Sem spam, apenas conteúdo de qualidade.
+                            </small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Info -->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4 mb-3">
                     <h5>Bio Aflora Brasil</h5>
-                    <p>Especializada em produtos de erva-mate sustentáveis</p>
+                    <p>Especializada em produtos de erva-mate sustentáveis, unindo tradição e proteção ambiental.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Links Rápidos</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="{{ url_for('inicio') }}">Início</a></li>
+                        <li><a href="{{ url_for('saiba_mais') }}">Saiba Mais</a></li>
+                        <li><a href="{{ url_for('contato') }}">Contato</a></li>
+                        <li><a href="{{ url_for('sobre_nos') }}">Sobre Nós</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Contato</h5>
+                    <p class="mb-1">📧 contato@bioaflorabrasil.com.br</p>
+                    <p class="mb-1">📞 (00) 0000-0000</p>
+                    <p>🌱 Sustentabilidade em primeiro lugar</p>
+                </div>
+            </div>
+            
+            <hr class="my-4">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Bio Aflora Brasil. Todos os direitos reservados.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p>&copy; 2024 Bio Aflora Brasil. Todos os direitos reservados.</p>
+                    <small class="text-muted">Desenvolvido com 💚 para um mundo mais sustentável</small>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-float" id="whatsappButton">
+        <div class="whatsapp-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.893 3.488"/>
+            </svg>
+        </div>
+        <span class="whatsapp-tooltip">Fale conosco!</span>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <div class="scroll-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+            </svg>
+        </div>
+        <span class="scroll-tooltip">Voltar ao topo</span>
+    </div>
+
+    <!-- Page Loading Overlay -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="mate-spinner">
+                <div class="mate-cup">🧉</div>
+                <div class="loader-text">Bio Aflora Brasil</div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>

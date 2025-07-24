@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Contato - Bio Aflora Brasil{% endblock %}
+{% block title %}Bio Aflora Brasil - Contato{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-section">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">🏠 Início</a></li>
+                <li class="breadcrumb-item active" aria-current="page">📞 Contato</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock %}
 
 {% block content %}
 <div class="container py-5">
@@ -76,6 +89,28 @@
                 </div>
             </div>
 
+            <!-- Interactive Map Section -->
+            <div class="card mt-5 border-success">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">📍 Nossa Localização</h4>
+                </div>
+                <div class="card-body p-0">
+                    <div id="map" class="interactive-map">
+                        <!-- Fallback for when Google Maps is not loaded -->
+                        <div class="map-placeholder">
+                            <div class="map-placeholder-content">
+                                <div class="icon-large text-success mb-3">📍</div>
+                                <h5>Bio Aflora Brasil</h5>
+                                <p class="mb-3">Região Sul do Brasil<br>Área de preservação da mata nativa</p>
+                                <button class="btn btn-success" onclick="openGoogleMaps()">
+                                    🗺️ Ver no Google Maps
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row mt-5">
                 <div class="col-md-4 text-center mb-3">
                     <div class="icon-circle bg-success text-white mb-2">🕒</div>
@@ -96,4 +131,76 @@
         </div>
     </div>
 </div>
+
+<!-- Google Maps API (opcional - descomente para usar mapa real) -->
+<!--
+<script>
+function initMap() {
+    // Coordenadas da região Sul do Brasil (exemplo: Curitiba, PR)
+    const bioAfloraLocation = { lat: -25.4284, lng: -49.2733 };
+    
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 12,
+        center: bioAfloraLocation,
+        styles: [
+            {
+                featureType: "all",
+                elementType: "geometry.fill",
+                stylers: [{ color: "#f0f8f0" }]
+            },
+            {
+                featureType: "water",
+                elementType: "geometry",
+                stylers: [{ color: "#10b981" }]
+            }
+        ]
+    });
+    
+    const marker = new google.maps.Marker({
+        position: bioAfloraLocation,
+        map: map,
+        title: "Bio Aflora Brasil",
+        icon: {
+            url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                    <path fill="#10b981" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+            `)
+        }
+    });
+    
+    const infoWindow = new google.maps.InfoWindow({
+        content: `
+            <div style="padding: 10px;">
+                <h5 style="color: #10b981; margin: 0 0 10px 0;">🌿 Bio Aflora Brasil</h5>
+                <p style="margin: 0 0 5px 0;"><strong>Especializada em erva-mate sustentável</strong></p>
+                <p style="margin: 0 0 5px 0;">📧 contato@bioaflorabrasil.com.br</p>
+                <p style="margin: 0;">📞 (00) 0000-0000</p>
+            </div>
+        `
+    });
+    
+    marker.addListener("click", () => {
+        infoWindow.open(map, marker);
+    });
+    
+    // Hide placeholder when map loads
+    document.querySelector('.map-placeholder').style.display = 'none';
+}
+
+window.initMap = initMap;
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+-->
+
+<script>
+function openGoogleMaps() {
+    // Coordenadas da região Sul do Brasil (exemplo)
+    const lat = -25.4284;
+    const lng = -49.2733;
+    const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=Bio+Aflora+Brasil`;
+    window.open(url, '_blank');
+}
+</script>
+
 {% endblock %}
