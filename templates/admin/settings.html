@@ -1,0 +1,303 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Configurações - Dashboard Admin{% endblock %}
+{% block page_title %}⚙️ Configurações do Sistema{% endblock %}
+
+{% block content %}
+<form method="POST" class="needs-validation" novalidate>
+    <!-- Email Configuration -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-envelope-at"></i>
+                Configuração de Email
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="email_remetente" class="form-label">Email Remetente *</label>
+                        <input type="email" class="form-control" id="email_remetente" name="email_remetente" 
+                               value="{{ config.get('EMAIL_REMETENTE', 'contato@bioaflora.com.br') }}" required>
+                        <div class="form-text">Email que aparecerá como remetente</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="email_destino" class="form-label">Email Destino *</label>
+                        <input type="email" class="form-control" id="email_destino" name="email_destino" 
+                               value="{{ config.get('EMAIL_DESTINO', 'contato@bioaflora.com.br') }}" required>
+                        <div class="form-text">Email que receberá as mensagens</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="smtp_server" class="form-label">Servidor SMTP *</label>
+                        <input type="text" class="form-control" id="smtp_server" name="smtp_server" 
+                               value="{{ config.get('SMTP_SERVER', 'smtp.gmail.com') }}" required>
+                        <div class="form-text">Ex: smtp.gmail.com</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="smtp_port" class="form-label">Porta SMTP *</label>
+                        <input type="number" class="form-control" id="smtp_port" name="smtp_port" 
+                               value="{{ config.get('SMTP_PORT', '587') }}" required>
+                        <div class="form-text">Normalmente 587 ou 465</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="email_password" class="form-label">Senha do Email/App Password *</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="email_password" name="email_password" 
+                           value="{{ config.get('EMAIL_PASSWORD', '') }}" 
+                           placeholder="Deixe em branco se não quiser alterar">
+                    <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('email_password')">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+                <div class="form-text">
+                    <strong>Gmail:</strong> Use uma senha de app gerada em 
+                    <a href="https://myaccount.google.com/apppasswords" target="_blank">myaccount.google.com/apppasswords</a>
+                </div>
+            </div>
+            
+            <button type="button" class="btn btn-outline-primary" onclick="testEmailConfig()">
+                <i class="bi bi-send"></i>
+                Testar Configuração de Email
+            </button>
+        </div>
+    </div>
+
+    <!-- Analytics Configuration -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-graph-up"></i>
+                Configuração do Google Analytics
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="ga4_id" class="form-label">Google Analytics 4 ID</label>
+                        <input type="text" class="form-control" id="ga4_id" name="ga4_id" 
+                               value="{{ config.get('GA4_MEASUREMENT_ID', 'GA4-BIOAFLORA') }}" 
+                               placeholder="G-XXXXXXXXXX">
+                        <div class="form-text">
+                            Formato: G-XXXXXXXXXX 
+                            <a href="https://analytics.google.com" target="_blank">(Obter no Google Analytics)</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="gtm_id" class="form-label">Google Tag Manager ID</label>
+                        <input type="text" class="form-control" id="gtm_id" name="gtm_id" 
+                               value="{{ config.get('GTM_CONTAINER_ID', 'GTM-BIOAFLORA') }}" 
+                               placeholder="GTM-XXXXXXX">
+                        <div class="form-text">
+                            Formato: GTM-XXXXXXX 
+                            <a href="https://tagmanager.google.com" target="_blank">(Obter no Google Tag Manager)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info">
+                <h6 class="alert-heading">
+                    <i class="bi bi-info-circle"></i>
+                    Como configurar Google Analytics:
+                </h6>
+                <ol class="mb-0">
+                    <li>Acesse <a href="https://analytics.google.com" target="_blank">Google Analytics</a></li>
+                    <li>Crie uma nova propriedade para "bioaflora.com.br"</li>
+                    <li>Copie o Measurement ID (formato G-XXXXXXXXXX)</li>
+                    <li>Acesse <a href="https://tagmanager.google.com" target="_blank">Google Tag Manager</a></li>
+                    <li>Crie um novo container para "bioaflora.com.br"</li>
+                    <li>Copie o Container ID (formato GTM-XXXXXXX)</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Site Configuration -->
+    <div class="card mb-4">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">
+                <i class="bi bi-globe"></i>
+                Configuração do Site
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="site_url" class="form-label">URL do Site *</label>
+                        <input type="url" class="form-control" id="site_url" name="site_url" 
+                               value="{{ config.get('SITE_URL', 'https://bioaflora.com.br') }}" required>
+                        <div class="form-text">URL completa do site (com https://)</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="secret_key" class="form-label">Chave Secreta</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="secret_key" name="secret_key" 
+                                   value="{{ config.get('SECRET_KEY', 'your-secret-key-here') }}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="generateSecretKey()">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">Chave usada para criptografia (gerar nova remove sessões ativas)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Configuration -->
+    <div class="card mb-4">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">
+                <i class="bi bi-shield-lock"></i>
+                Configuração do Admin
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                <h6 class="alert-heading">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    Atenção!
+                </h6>
+                <p class="mb-0">Alterar estas configurações pode impedir o acesso ao dashboard. Anote as credenciais antes de salvar.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="admin_username" class="form-label">Usuário Admin *</label>
+                        <input type="text" class="form-control" id="admin_username" name="admin_username" 
+                               value="{{ config.get('ADMIN_USERNAME', 'admin') }}" required>
+                        <div class="form-text">Nome de usuário para acessar o dashboard</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="admin_password" class="form-label">Senha Admin *</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="admin_password" name="admin_password" 
+                                   value="{{ config.get('ADMIN_PASSWORD', 'bioaflora2024') }}" required>
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('admin_password')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-text">Senha para acessar o dashboard admin</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="button" class="btn btn-outline-secondary me-md-2" onclick="window.location.reload()">
+            <i class="bi bi-arrow-clockwise"></i>
+            Resetar
+        </button>
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-lg"></i>
+            Salvar Configurações
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    const icon = field.nextElementSibling.querySelector('i');
+    
+    if (field.type === 'password') {
+        field.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        field.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+
+function generateSecretKey() {
+    // Generate a random secret key
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 32; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    document.getElementById('secret_key').value = result;
+}
+
+function testEmailConfig() {
+    const emailData = {
+        email_remetente: document.getElementById('email_remetente').value,
+        smtp_server: document.getElementById('smtp_server').value,
+        smtp_port: document.getElementById('smtp_port').value,
+        email_password: document.getElementById('email_password').value
+    };
+    
+    if (!emailData.email_remetente || !emailData.smtp_server) {
+        alert('❌ Preencha pelo menos o email remetente e servidor SMTP');
+        return;
+    }
+    
+    const testButton = event.target;
+    const originalText = testButton.innerHTML;
+    testButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Testando...';
+    testButton.disabled = true;
+    
+    fetch('/admin/test-email', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `email_teste=${encodeURIComponent(emailData.email_remetente)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(error => {
+        alert('❌ Erro na requisição: ' + error);
+    })
+    .finally(() => {
+        testButton.innerHTML = originalText;
+        testButton.disabled = false;
+    });
+}
+
+// Form validation
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+{% endblock %}

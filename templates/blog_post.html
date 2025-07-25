@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} - Bio Aflora Brasil{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumb-section">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('inicio') }}">🏠 Início</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('blog') }}">📝 Blog</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ post.category }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <article class="blog-post-content">
+                <!-- Post Header -->
+                <header class="post-header">
+                    <div class="post-meta">
+                        <span class="post-date">📅 {{ post.date }}</span>
+                        <span class="post-category">🏷️ {{ post.category }}</span>
+                        <span class="post-author">👤 {{ post.author }}</span>
+                    </div>
+                    <h1 class="post-title">{{ post.title }}</h1>
+                    
+                    <!-- Featured Image -->
+                    <div class="post-featured-image">
+                        {% if post.slug == 'preservacao-mata-atlantica' %}
+                            <div class="placeholder-image featured">🌳</div>
+                        {% elif post.slug == 'cultivo-organico' %}
+                            <div class="placeholder-image featured">🌱</div>
+                        {% elif post.slug == 'beneficios-nutricionais' %}
+                            <div class="placeholder-image featured">🧉</div>
+                        {% elif post.slug == 'reflorestamento' %}
+                            <div class="placeholder-image featured">🌲</div>
+                        {% elif post.slug == 'inovacoes-processamento' %}
+                            <div class="placeholder-image featured">🔬</div>
+                        {% elif post.slug == 'apoio-familias' %}
+                            <div class="placeholder-image featured">👥</div>
+                        {% else %}
+                            <div class="placeholder-image featured">📈</div>
+                        {% endif %}
+                    </div>
+                </header>
+
+                <!-- Post Content -->
+                <div class="post-content">
+                    {% if post.slug == 'preservacao-mata-atlantica' %}
+                        {% include 'posts/preservacao-mata-atlantica.html' %}
+                    {% elif post.slug == 'cultivo-organico' %}
+                        {% include 'posts/cultivo-organico.html' %}
+                    {% elif post.slug == 'beneficios-nutricionais' %}
+                        {% include 'posts/beneficios-nutricionais.html' %}
+                    {% elif post.slug == 'reflorestamento' %}
+                        {% include 'posts/reflorestamento.html' %}
+                    {% elif post.slug == 'inovacoes-processamento' %}
+                        {% include 'posts/inovacoes-processamento.html' %}
+                    {% elif post.slug == 'apoio-familias' %}
+                        {% include 'posts/apoio-familias.html' %}
+                    {% elif post.slug == 'relatorio-sustentabilidade' %}
+                        {% include 'posts/relatorio-sustentabilidade.html' %}
+                    {% endif %}
+                </div>
+
+                <!-- Post Footer -->
+                <footer class="post-footer">
+                    <div class="post-tags">
+                        <strong>Tags:</strong>
+                        {% if post.category == 'Sustentabilidade' %}
+                            <span class="tag">sustentabilidade</span>
+                            <span class="tag">meio ambiente</span>
+                            <span class="tag">preservação</span>
+                        {% elif post.category == 'Erva-Mate' %}
+                            <span class="tag">erva-mate</span>
+                            <span class="tag">chimarrão</span>
+                            <span class="tag">saúde</span>
+                        {% elif post.category == 'Meio Ambiente' %}
+                            <span class="tag">reflorestamento</span>
+                            <span class="tag">mata atlântica</span>
+                            <span class="tag">biodiversidade</span>
+                        {% elif post.category == 'Pesquisa' %}
+                            <span class="tag">inovação</span>
+                            <span class="tag">tecnologia</span>
+                            <span class="tag">pesquisa</span>
+                        {% elif post.category == 'Comunidade' %}
+                            <span class="tag">comunidade</span>
+                            <span class="tag">parcerias</span>
+                            <span class="tag">desenvolvimento social</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="share-buttons">
+                        <strong>Compartilhar:</strong>
+                        <a href="https://wa.me/?text={{ post.title | urlencode }} - {{ request.url | urlencode }}" class="share-btn whatsapp" target="_blank">
+                            📱 WhatsApp
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.url | urlencode }}" class="share-btn facebook" target="_blank">
+                            📘 Facebook
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?text={{ post.title | urlencode }}&url={{ request.url | urlencode }}" class="share-btn twitter" target="_blank">
+                            🐦 Twitter
+                        </a>
+                    </div>
+                </footer>
+
+                <!-- Post Navigation -->
+                <nav class="post-navigation">
+                    <div class="nav-links">
+                        {% if prev_post %}
+                        <div class="nav-previous">
+                            <a href="{{ url_for('blog_post', slug=prev_post.slug) }}" class="nav-link">
+                                <span class="nav-subtitle">← Post Anterior</span>
+                                <span class="nav-title">{{ prev_post.title }}</span>
+                            </a>
+                        </div>
+                        {% endif %}
+                        
+                        {% if next_post %}
+                        <div class="nav-next">
+                            <a href="{{ url_for('blog_post', slug=next_post.slug) }}" class="nav-link">
+                                <span class="nav-subtitle">Próximo Post →</span>
+                                <span class="nav-title">{{ next_post.title }}</span>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </nav>
+
+                <!-- Call to Action -->
+                <div class="post-cta">
+                    <h4>🌿 Interessado em nossos produtos sustentáveis?</h4>
+                    <p>Conheça nossa linha completa de erva-mate premium e faça parte da mudança!</p>
+                    <div class="cta-buttons">
+                        <a href="{{ url_for('saiba_mais') }}" class="btn btn-success">Ver Produtos</a>
+                        <a href="{{ url_for('contato') }}" class="btn btn-outline-success">Entrar em Contato</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="sidebar">
+                <!-- About Author -->
+                <div class="sidebar-widget">
+                    <h5 class="widget-title">👥 Sobre o Autor</h5>
+                    <div class="author-info">
+                        <div class="author-avatar">🌿</div>
+                        <div class="author-details">
+                            <h6>Bio Aflora Brasil</h6>
+                            <p>Especialista em erva-mate sustentável com foco na preservação ambiental e desenvolvimento de comunidades locais.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Posts -->
+                <div class="sidebar-widget">
+                    <h5 class="widget-title">📖 Posts Relacionados</h5>
+                    <div class="related-posts">
+                        <div class="related-post">
+                            <div class="post-thumb">🌱</div>
+                            <div class="post-info">
+                                <h6><a href="{{ url_for('blog_post', slug='cultivo-organico') }}">Cultivo Orgânico: O Futuro da Erva-Mate</a></h6>
+                                <small>15 Jan, 2024</small>
+                            </div>
+                        </div>
+                        <div class="related-post">
+                            <div class="post-thumb">🧉</div>
+                            <div class="post-info">
+                                <h6><a href="{{ url_for('blog_post', slug='beneficios-nutricionais') }}">Os Benefícios Nutricionais da Erva-Mate</a></h6>
+                                <small>16 Jan, 2024</small>
+                            </div>
+                        </div>
+                        <div class="related-post">
+                            <div class="post-thumb">🌳</div>
+                            <div class="post-info">
+                                <h6><a href="{{ url_for('blog_post', slug='reflorestamento') }}">Reflorestamento: Nossa Contribuição</a></h6>
+                                <small>14 Jan, 2024</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="sidebar-widget newsletter-widget">
+                    <h5 class="widget-title">📧 Newsletter</h5>
+                    <p>Receba conteúdos exclusivos sobre sustentabilidade!</p>
+                    <form class="newsletter-sidebar-form" id="sidebarNewsletter">
+                        <input type="email" class="form-control mb-3" placeholder="Seu e-mail" required>
+                        <button type="submit" class="btn btn-success w-100">Inscrever-se</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

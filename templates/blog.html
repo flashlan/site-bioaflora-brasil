@@ -1,6 +1,31 @@
 {% extends "base.html" %}
 
-{% block title %}Bio Aflora Brasil - Blog{% endblock %}
+{% block title %}Blog Sustentabilidade e Erva-Mate | Bio Aflora Brasil{% endblock %}
+
+{% block meta_description %}Blog da Bio Aflora Brasil com artigos sobre sustentabilidade, benefícios da erva-mate, cultivo orgânico e preservação ambiental.{% endblock %}
+
+{% block meta_keywords %}blog erva-mate, sustentabilidade, preservação ambiental, cultivo orgânico, Mata Atlântica, artigos erva-mate{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Blog Bio Aflora Brasil",
+    "description": "Artigos sobre sustentabilidade, erva-mate e preservação ambiental",
+    "url": "https://bioaflora.com.br/blog",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Agronanobio",
+        "url": "https://bioaflora.com.br"
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://bioaflora.com.br/blog"
+    }
+}
+</script>
+{% endblock %}
 
 {% block breadcrumbs %}
 <div class="breadcrumb-section">

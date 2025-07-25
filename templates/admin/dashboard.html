@@ -1,0 +1,278 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Dashboard Admin - Agronanobio{% endblock %}
+{% block page_title %}📊 Dashboard Administrativo{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Status Cards -->
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.newsletter_total }}</div>
+            <div class="stat-label">
+                <i class="bi bi-envelope"></i>
+                Inscritos Newsletter
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.newsletter_ativos }}</div>
+            <div class="stat-label">
+                <i class="bi bi-check-circle"></i>
+                Inscritos Ativos
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">
+                {% if stats.email_configured %}
+                    <i class="bi bi-check-lg text-success"></i>
+                {% else %}
+                    <i class="bi bi-x-lg text-warning"></i>
+                {% endif %}
+            </div>
+            <div class="stat-label">
+                <i class="bi bi-envelope-at"></i>
+                Email Configurado
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">
+                {% if stats.analytics_configured %}
+                    <i class="bi bi-check-lg text-success"></i>
+                {% else %}
+                    <i class="bi bi-x-lg text-warning"></i>
+                {% endif %}
+            </div>
+            <div class="stat-label">
+                <i class="bi bi-graph-up"></i>
+                Analytics Configurado
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- System Status -->
+<div class="row mt-4">
+    <div class="col-12">
+        <h3>🛡️ Status do Sistema</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-gear"></i>
+                            Configurações
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2">
+                                <span class="status-indicator {% if stats.env_configured %}status-ok{% else %}status-warning{% endif %}"></span>
+                                Arquivo .env: {% if stats.env_configured %}Configurado{% else %}Não configurado{% endif %}
+                            </li>
+                            <li class="mb-2">
+                                <span class="status-indicator {% if stats.email_configured %}status-ok{% else %}status-error{% endif %}"></span>
+                                Email SMTP: {% if stats.email_configured %}Ativo{% else %}Não configurado{% endif %}
+                            </li>
+                            <li class="mb-2">
+                                <span class="status-indicator {% if stats.analytics_configured %}status-ok{% else %}status-warning{% endif %}"></span>
+                                Google Analytics: {% if stats.analytics_configured %}Configurado{% else %}Usando placeholders{% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">
+                            <i class="bi bi-list-check"></i>
+                            Ações Rápidas
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="{{ url_for('admin_settings') }}" class="btn btn-success">
+                                <i class="bi bi-gear"></i>
+                                Configurar Sistema
+                            </a>
+                            <a href="{{ url_for('admin_newsletter') }}" class="btn btn-outline-success">
+                                <i class="bi bi-envelope"></i>
+                                Gerenciar Newsletter
+                            </a>
+                            <button class="btn btn-outline-primary" onclick="testEmail()">
+                                <i class="bi bi-send"></i>
+                                Testar Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Configuration Summary -->
+{% if config %}
+<div class="row mt-4">
+    <div class="col-12">
+        <h3>⚙️ Resumo das Configurações</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Configuração</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Email Remetente</strong></td>
+                        <td>{{ config.get('EMAIL_REMETENTE', 'Não configurado') }}</td>
+                        <td>
+                            {% if config.get('EMAIL_REMETENTE') %}
+                                <span class="badge bg-success">OK</span>
+                            {% else %}
+                                <span class="badge bg-warning">Pendente</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Servidor SMTP</strong></td>
+                        <td>{{ config.get('SMTP_SERVER', 'smtp.gmail.com') }}</td>
+                        <td><span class="badge bg-success">OK</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Google Analytics ID</strong></td>
+                        <td>{{ config.get('GA4_MEASUREMENT_ID', 'GA4-BIOAFLORA') }}</td>
+                        <td>
+                            {% if config.get('GA4_MEASUREMENT_ID') and config.get('GA4_MEASUREMENT_ID') != 'GA4-BIOAFLORA' %}
+                                <span class="badge bg-success">Configurado</span>
+                            {% else %}
+                                <span class="badge bg-warning">Placeholder</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Google Tag Manager ID</strong></td>
+                        <td>{{ config.get('GTM_CONTAINER_ID', 'GTM-BIOAFLORA') }}</td>
+                        <td>
+                            {% if config.get('GTM_CONTAINER_ID') and config.get('GTM_CONTAINER_ID') != 'GTM-BIOAFLORA' %}
+                                <span class="badge bg-success">Configurado</span>
+                            {% else %}
+                                <span class="badge bg-warning">Placeholder</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>URL do Site</strong></td>
+                        <td>{{ config.get('SITE_URL', 'https://bioaflora.com.br') }}</td>
+                        <td><span class="badge bg-success">OK</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Recent Activity -->
+<div class="row mt-4">
+    <div class="col-12">
+        <h3>📈 Atividade Recente</h3>
+        <div class="alert alert-info">
+            <h5 class="alert-heading">
+                <i class="bi bi-info-circle"></i>
+                Sistema Funcionando
+            </h5>
+            <p class="mb-0">
+                Dashboard administrativo ativo e funcionando corretamente. 
+                Todas as funcionalidades principais estão operacionais.
+            </p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-envelope text-success" style="font-size: 2rem;"></i>
+                        <h5 class="card-title mt-2">Sistema de Email</h5>
+                        <p class="card-text">
+                            {% if stats.email_configured %}
+                                Pronto para enviar emails
+                            {% else %}
+                                Aguardando configuração
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-graph-up text-primary" style="font-size: 2rem;"></i>
+                        <h5 class="card-title mt-2">Analytics</h5>
+                        <p class="card-text">
+                            {% if stats.analytics_configured %}
+                                Coletando dados reais
+                            {% else %}
+                                Usando IDs de teste
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-people text-info" style="font-size: 2rem;"></i>
+                        <h5 class="card-title mt-2">Newsletter</h5>
+                        <p class="card-text">
+                            {{ stats.newsletter_ativos }} usuários ativos
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function testEmail() {
+    if (confirm('Deseja enviar um email de teste para verificar a configuração?')) {
+        fetch('/admin/test-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'email_teste=contato@bioaflora.com.br'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('✅ ' + data.message);
+            } else {
+                alert('❌ ' + data.message);
+            }
+        })
+        .catch(error => {
+            alert('❌ Erro na requisição: ' + error);
+        });
+    }
+}
+</script>
+{% endblock %}

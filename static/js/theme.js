@@ -84,9 +84,125 @@ window.addEventListener('load', function() {
     }
 });
 
+// Analytics helper functions
+function trackPageScroll() {
+    let scrollPercentage = 0;
+    let maxScroll = 0;
+    let scrollTimer = null;
+    
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const currentPercentage = Math.round((scrollTop / docHeight) * 100);
+        
+        if (currentPercentage > maxScroll) {
+            maxScroll = currentPercentage;
+            
+            // Track milestone scrolls
+            if ([25, 50, 75, 90].includes(currentPercentage) && currentPercentage > scrollPercentage) {
+                scrollPercentage = currentPercentage;
+                
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'scroll', {
+                        'event_category': 'engagement',
+                        'event_label': `${currentPercentage}%`,
+                        'value': currentPercentage
+                    });
+                }
+                
+                if (typeof dataLayer !== 'undefined') {
+                    dataLayer.push({
+                        'event': 'scroll_depth',
+                        'scroll_percentage': currentPercentage,
+                        'page_location': window.location.pathname
+                    });
+                }
+            }
+        }
+    });
+}
+
+function trackTimeOnPage() {
+    const startTime = Date.now();
+    
+    // Track time milestones
+    [30, 60, 120, 300].forEach(seconds => {
+        setTimeout(() => {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'time_on_page', {
+                    'event_category': 'engagement',
+                    'event_label': `${seconds}s`,
+                    'value': seconds
+                });
+            }
+        }, seconds * 1000);
+    });
+    
+    // Track total time on page unload
+    window.addEventListener('beforeunload', function() {
+        const timeSpent = Math.round((Date.now() - startTime) / 1000);
+        
+        if (typeof navigator.sendBeacon !== 'undefined' && typeof gtag !== 'undefined') {
+            gtag('event', 'page_view_duration', {
+                'event_category': 'engagement',
+                'value': timeSpent,
+                'transport_type': 'beacon'
+            });
+        }
+    });
+}
+
+function trackNavigation() {
+    // Track all navigation clicks
+    document.querySelectorAll('nav a, .navbar a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            const text = this.textContent.trim();
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'navigation_click', {
+                    'event_category': 'navigation',
+                    'event_label': text,
+                    'link_url': href
+                });
+            }
+            
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'navigation_click',
+                    'link_text': text,
+                    'link_url': href,
+                    'click_location': 'main_navigation'
+                });
+            }
+        });
+    });
+    
+    // Track footer link clicks
+    document.querySelectorAll('footer a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            const text = this.textContent.trim();
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'footer_link_click', {
+                    'event_category': 'navigation',
+                    'event_label': text,
+                    'link_url': href
+                });
+            }
+        });
+    });
+}
+
 // Inicializar quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', () => {
     new ThemeManager();
+    
+    // Initialize analytics tracking
+    trackPageScroll();
+    trackTimeOnPage();
+    trackNavigation();
 });
 
 // Animações e efeitos adicionais
@@ -143,9 +259,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (whatsappButton) {
         whatsappButton.addEventListener('click', function() {
             // Configurações do WhatsApp
-            const phoneNumber = '5511999999999'; // Substitua pelo número real
+            const phoneNumber = '5542999575280'; // Número da Agronanobio
             const message = encodeURIComponent(
-                'Olá! Vim através do site da Bio Aflora Brasil. Gostaria de saber mais sobre os produtos de erva-mate sustentáveis.'
+                'Olá! Vim através do site do Projeto Bio Aflora da Agronanobio. Gostaria de saber mais sobre o sistema agroflorestal com erva-mate nativa.'
             );
             
             // Detectar se é mobile ou desktop
@@ -163,11 +279,21 @@ document.addEventListener('DOMContentLoaded', () => {
             // Abrir WhatsApp em nova aba
             window.open(whatsappURL, '_blank');
             
-            // Analytics tracking (opcional)
+            // Analytics tracking
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'whatsapp_click', {
                     'event_category': 'engagement',
-                    'event_label': 'whatsapp_button'
+                    'event_label': 'whatsapp_button',
+                    'value': 1
+                });
+            }
+            
+            // Track via dataLayer for GTM
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'whatsapp_contact',
+                    'contact_method': 'whatsapp',
+                    'button_location': 'floating_button'
                 });
             }
         });
@@ -194,54 +320,128 @@ document.addEventListener('DOMContentLoaded', () => {
         newsletterForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('newsletterEmail').value;
+            const email = document.getElementById('newsletterEmail').value.trim();
             const button = newsletterForm.querySelector('.newsletter-btn');
             const buttonText = button.querySelector('.newsletter-text');
             const buttonLoading = button.querySelector('.newsletter-loading');
+            
+            // Validar email
+            if (!email || !isValidEmail(email)) {
+                showNewsletterAlert('Por favor, insira um email válido', 'error');
+                return;
+            }
             
             // Show loading state
             buttonText.style.display = 'none';
             buttonLoading.style.display = 'inline-block';
             button.disabled = true;
             
-            // Simulate API call (replace with real implementation)
-            setTimeout(() => {
-                // Success animation
-                buttonText.textContent = 'Inscrito! ✓';
+            // Enviar para o backend
+            fetch('/newsletter/cadastrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `email=${encodeURIComponent(email)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Success animation
+                    buttonText.textContent = 'Inscrito! ✓';
+                    buttonText.style.display = 'inline-block';
+                    buttonLoading.style.display = 'none';
+                    button.classList.add('btn-outline-success');
+                    button.classList.remove('btn-success');
+                    
+                    // Reset form
+                    newsletterForm.reset();
+                    
+                    // Show success message
+                    showNewsletterAlert(data.message, 'success');
+                    
+                    // Analytics tracking - Newsletter signup success
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'newsletter_signup', {
+                            'event_category': 'lead_generation',
+                            'event_label': 'footer_newsletter',
+                            'value': 1
+                        });
+                        
+                        gtag('event', 'generate_lead', {
+                            'currency': 'BRL',
+                            'value': 10.0 // Estimated lead value
+                        });
+                    }
+                    
+                    // Track via dataLayer for GTM
+                    if (typeof dataLayer !== 'undefined') {
+                        dataLayer.push({
+                            'event': 'newsletter_subscription',
+                            'subscription_type': 'email_newsletter',
+                            'form_location': 'footer',
+                            'user_email_domain': email.split('@')[1]
+                        });
+                    }
+                    
+                    // Reset button after 3 seconds
+                    setTimeout(() => {
+                        buttonText.textContent = 'Inscrever-se';
+                        button.classList.remove('btn-outline-success');
+                        button.classList.add('btn-success');
+                        button.disabled = false;
+                    }, 3000);
+                } else {
+                    // Error handling
+                    showNewsletterAlert(data.message, 'error');
+                    resetNewsletterButton();
+                    
+                    // Analytics tracking - Newsletter signup error
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'newsletter_signup_error', {
+                            'event_category': 'form_error',
+                            'event_label': 'footer_newsletter',
+                            'error_message': data.message
+                        });
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                showNewsletterAlert('Erro ao processar inscrição. Tente novamente.', 'error');
+                resetNewsletterButton();
+            });
+            
+            function resetNewsletterButton() {
                 buttonText.style.display = 'inline-block';
                 buttonLoading.style.display = 'none';
-                button.classList.add('btn-outline-success');
-                button.classList.remove('btn-success');
-                
-                // Reset form
-                newsletterForm.reset();
-                
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    buttonText.textContent = 'Inscrever-se';
-                    button.classList.remove('btn-outline-success');
-                    button.classList.add('btn-success');
-                    button.disabled = false;
-                }, 3000);
-                
-                // Show success message
-                const alertDiv = document.createElement('div');
-                alertDiv.className = 'alert alert-success mt-3';
-                alertDiv.innerHTML = `
-                    <strong>Obrigado!</strong> ${email} foi inscrito com sucesso em nossa newsletter.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                `;
-                newsletterForm.appendChild(alertDiv);
-                
-                // Remove alert after 5 seconds
-                setTimeout(() => {
-                    if (alertDiv.parentNode) {
-                        alertDiv.remove();
-                    }
-                }, 5000);
-                
-            }, 2000);
+                button.disabled = false;
+            }
         });
+    }
+    
+    function showNewsletterAlert(message, type) {
+        // Remove alertas existentes
+        const existingAlerts = document.querySelectorAll('.newsletter-alert');
+        existingAlerts.forEach(alert => alert.remove());
+        
+        // Criar novo alerta
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type === 'error' ? 'danger' : 'success'} mt-3 newsletter-alert`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+        `;
+        
+        const newsletterForm = document.getElementById('newsletterForm');
+        newsletterForm.appendChild(alertDiv);
+        
+        // Remove alert after 8 seconds
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 8000);
     }
 
     // Scroll to Top Button
@@ -313,6 +513,25 @@ function performSearch(query) {
         const originalHTML = searchBtn.innerHTML;
         searchBtn.innerHTML = '<div class="spinner-border spinner-border-sm" role="status"></div>';
         
+        // Analytics tracking - Successful search
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'search', {
+                'search_term': query,
+                'result_found': true,
+                'result_page': bestMatch.page
+            });
+        }
+        
+        // Track via dataLayer for GTM
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'site_search',
+                'search_term': query,
+                'search_results': 1,
+                'result_page': bestMatch.page
+            });
+        }
+        
         // Simulate search delay and redirect
         setTimeout(() => {
             window.location.href = `/${bestMatch.page}`;
@@ -320,6 +539,23 @@ function performSearch(query) {
     } else {
         // Show no results message
         showSearchAlert(`Nenhum resultado encontrado para "${query}". Tente termos como: erva-mate, chimarrão, sustentabilidade, produtos.`);
+        
+        // Analytics tracking - No results search
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'search', {
+                'search_term': query,
+                'result_found': false
+            });
+        }
+        
+        // Track via dataLayer for GTM
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'site_search',
+                'search_term': query,
+                'search_results': 0
+            });
+        }
     }
 }
 

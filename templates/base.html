@@ -3,22 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Bio Aflora Brasil{% endblock %}</title>
+    <title>{% block title %}Bio Aflora Brasil - Erva-Mate Premium e Sustentável{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}Bio Aflora Brasil - Especializada em produtos de erva-mate premium (Ilex paraguariensis), unindo tradição, qualidade e sustentabilidade na proteção da erva-mate nativa.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}erva-mate, chimarrão, chá-mate, Ilex paraguariensis, sustentabilidade, orgânico, Brasil, mate premium, erva natural{% endblock %}">
+    <meta name="author" content="Bio Aflora Brasil">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="pt-BR">
     <meta name="theme-color" content="#10b981">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{{ request.url.replace(request.host_url.rstrip('/'), 'https://bioaflora.com.br') }}">
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ self.meta_description() }}{% endblock %}">
+    <meta property="og:image" content="https://bioaflora.com.br{{ url_for('static', filename='images/og-image.jpg') }}">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Agronanobio - Projeto Bio Aflora">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.url.replace(request.host_url.rstrip('/'), 'https://bioaflora.com.br') }}">
+    <meta property="twitter:title" content="{% block twitter_title %}{{ self.title() }}{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}{{ self.meta_description() }}{% endblock %}">
+    <meta property="twitter:image" content="https://bioaflora.com.br{{ url_for('static', filename='images/og-image.jpg') }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url.replace(request.host_url.rstrip('/'), 'https://bioaflora.com.br') }}">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.svg') }}">
     
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','{{ get_env_value("GTM_CONTAINER_ID", "GTM-BIOAFLORA") }}');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ get_env_value('GA4_MEASUREMENT_ID', 'GA4-BIOAFLORA') }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ get_env_value("GA4_MEASUREMENT_ID", "GA4-BIOAFLORA") }}', {
+            page_title: document.title,
+            page_location: window.location.href,
+            custom_map: {
+                'custom_parameter_1': 'bio_aflora_source'
+            }
+        });
+
+        // Enhanced eCommerce tracking setup
+        gtag('config', '{{ get_env_value("GA4_MEASUREMENT_ID", "GA4-BIOAFLORA") }}', {
+            send_page_view: true,
+            anonymize_ip: true,
+            allow_google_signals: false,
+            cookie_flags: 'SameSite=Strict;Secure'
+        });
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Agronanobio",
+        "legalName": "Agronanobio Industria, Comercio, Importação e Exportação Ltda",
+        "description": "Especializada em produtos de erva-mate premium sustentáveis - Projeto Bio Aflora",
+        "url": "https://bioaflora.com.br",
+        "logo": "https://bioaflora.com.br{{ url_for('static', filename='images/favicon.svg') }}",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+55-42-99957-5280",
+            "contactType": "customer service",
+            "areaServed": "BR",
+            "availableLanguage": "Portuguese"
+        },
+        "sameAs": [
+            "https://www.facebook.com/bioaflora",
+            "https://www.instagram.com/bioaflora",
+            "https://bioaflora.com.br"
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Vicina 11, Linha Esperança, 1954, Serra do Tigre",
+            "addressLocality": "Distrito de Dorizon",
+            "addressRegion": "Paraná",
+            "postalCode": "84570-000",
+            "addressCountry": "BR"
+        },
+        "taxID": "11.743.641/0001-52",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://bioaflora.com.br/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    {% block structured_data %}{% endblock %}
 </head>
-<body>
+<body itemscope itemtype="https://schema.org/WebPage">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ get_env_value('GTM_CONTAINER_ID', 'GTM-BIOAFLORA') }}"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ url_for('inicio') }}">
-                🌿 Bio Aflora Brasil
+                🌿 Agronanobio
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -106,8 +212,9 @@
             <!-- Footer Info -->
             <div class="row">
                 <div class="col-md-4 mb-3">
-                    <h5>Bio Aflora Brasil</h5>
-                    <p>Especializada em produtos de erva-mate sustentáveis, unindo tradição e proteção ambiental.</p>
+                    <h5>Agronanobio</h5>
+                    <p><strong>Industria, Comercio, Importação e Exportação Ltda</strong><br>
+                    Projeto Bio Aflora - Sistema agroflorestal com erva-mate nativa.</p>
                 </div>
                 <div class="col-md-4 mb-3">
                     <h5>Links Rápidos</h5>
@@ -120,9 +227,12 @@
                 </div>
                 <div class="col-md-4 mb-3">
                     <h5>Contato</h5>
-                    <p class="mb-1">📧 contato@bioaflorabrasil.com.br</p>
-                    <p class="mb-1">📞 (00) 0000-0000</p>
-                    <p>🌱 Sustentabilidade em primeiro lugar</p>
+                    <p class="mb-1">📧 contato@bioaflora.com.br</p>
+                    <p class="mb-1">📞 (42) 99957-5280</p>
+                    <p class="mb-1">📍 Vicina 11, Linha Esperança, 1954</p>
+                    <p class="mb-1">Serra do Tigre - Distrito de Dorizon</p>
+                    <p class="mb-1">CEP: 84.570-000 - Mallet-PR</p>
+                    <p class="small">🏢 CNPJ: 11.743.641/0001-52</p>
                 </div>
             </div>
             
@@ -130,10 +240,38 @@
             
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0">&copy; 2024 Bio Aflora Brasil. Todos os direitos reservados.</p>
+                    <p class="mb-0">&copy; 2024 Agronanobio Industria, Comercio, Importação e Exportação Ltda. Todos os direitos reservados.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <small class="text-muted">Desenvolvido com 💚 para um mundo mais sustentável</small>
+                </div>
+            </div>
+            
+            <!-- Privacy Notice for Analytics -->
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="privacy-notice" id="privacyNotice" style="display: none;">
+                        <div class="alert alert-info alert-dismissible fade show">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="alert-heading mb-2">🍪 Uso de Cookies e Analytics</h6>
+                                    <p class="mb-2">
+                                        Utilizamos cookies e ferramentas de análise para melhorar sua experiência, 
+                                        personalizar conteúdo e analisar o tráfego do site. Os dados são tratados 
+                                        conforme nossa política de privacidade.
+                                    </p>
+                                    <div class="privacy-buttons">
+                                        <button type="button" class="btn btn-success btn-sm me-2" onclick="acceptAnalytics()">
+                                            ✅ Aceitar
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="declineAnalytics()">
+                                            ❌ Recusar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -171,5 +309,111 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    
+    <!-- Analytics Consent Management -->
+    <script>
+        // Check if user has already made a choice about analytics
+        function checkAnalyticsConsent() {
+            const consent = localStorage.getItem('analytics_consent');
+            
+            if (consent === null) {
+                // Show privacy notice after 2 seconds
+                setTimeout(() => {
+                    const privacyNotice = document.getElementById('privacyNotice');
+                    if (privacyNotice) {
+                        privacyNotice.style.display = 'block';
+                    }
+                }, 2000);
+            } else if (consent === 'accepted') {
+                enableAnalytics();
+            } else {
+                disableAnalytics();
+            }
+        }
+        
+        function acceptAnalytics() {
+            localStorage.setItem('analytics_consent', 'accepted');
+            hidePrivacyNotice();
+            enableAnalytics();
+            
+            // Track consent acceptance
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'privacy_consent', {
+                    'event_category': 'privacy',
+                    'event_label': 'accepted'
+                });
+            }
+        }
+        
+        function declineAnalytics() {
+            localStorage.setItem('analytics_consent', 'declined');
+            hidePrivacyNotice();
+            disableAnalytics();
+            
+            // Basic tracking for decline (before disabling)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'privacy_consent', {
+                    'event_category': 'privacy',
+                    'event_label': 'declined'
+                });
+            }
+        }
+        
+        function hidePrivacyNotice() {
+            const privacyNotice = document.getElementById('privacyNotice');
+            if (privacyNotice) {
+                privacyNotice.style.display = 'none';
+            }
+        }
+        
+        function enableAnalytics() {
+            // Enable Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted',
+                    'ad_storage': 'denied' // Keep ads disabled for privacy
+                });
+            }
+            
+            // Enable Google Tag Manager
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({
+                    'event': 'consent_update',
+                    'analytics_consent': 'granted'
+                });
+            }
+        }
+        
+        function disableAnalytics() {
+            // Disable Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('consent', 'update', {
+                    'analytics_storage': 'denied',
+                    'ad_storage': 'denied'
+                });
+            }
+            
+            // Clear existing analytics cookies
+            const cookiesToClear = ['_ga', '_ga_GA4-BIOAFLORA', '_gid', '_gat'];
+            cookiesToClear.forEach(cookie => {
+                document.cookie = `${cookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                document.cookie = `${cookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.bioaflora.com.br;`;
+            });
+        }
+        
+        // Initialize consent system on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default consent to denied
+            if (typeof gtag !== 'undefined') {
+                gtag('consent', 'default', {
+                    'analytics_storage': 'denied',
+                    'ad_storage': 'denied',
+                    'wait_for_update': 2000
+                });
+            }
+            
+            checkAnalyticsConsent();
+        });
+    </script>
 </body>
 </html>

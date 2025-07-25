@@ -1,6 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}Bio Aflora Brasil - Contato{% endblock %}
+{% block title %}Contato - Agronanobio | Orçamentos Projeto Bio Aflora{% endblock %}
+
+{% block meta_description %}Entre em contato com a Agronanobio para orçamentos do Projeto Bio Aflora, informações sobre erva-mate premium e parcerias sustentáveis em Mallet-PR.{% endblock %}
+
+{% block meta_keywords %}contato Agronanobio, Projeto Bio Aflora, orçamento erva-mate, Mallet Paraná, URT{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contato - Agronanobio",
+    "description": "Entre em contato conosco para orçamentos do Projeto Bio Aflora",
+    "url": "https://bioaflora.com.br/contato",
+    "mainEntity": {
+        "@type": "Organization",
+        "name": "Agronanobio",
+        "legalName": "Agronanobio Industria, Comercio, Importação e Exportação Ltda",
+        "url": "https://bioaflora.com.br",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "telephone": "+55-42-99957-5280",
+            "email": "contato@bioaflora.com.br",
+            "areaServed": "BR",
+            "availableLanguage": "Portuguese"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Vicina 11, Linha Esperança, 1954, Serra do Tigre",
+            "addressLocality": "Distrito de Dorizon",
+            "addressRegion": "Paraná",
+            "postalCode": "84570-000",
+            "addressCountry": "BR"
+        }
+    }
+}
+</script>
+{% endblock %}
 
 {% block breadcrumbs %}
 <div class="breadcrumb-section">
@@ -27,9 +65,13 @@
                         <div class="card-body">
                             <h4 class="card-title text-success mb-3">📍 Nossa Localização</h4>
                             <p class="card-text">
-                                <strong>Bio Aflora Brasil</strong><br>
-                                Região Sul do Brasil<br>
-                                Área de preservação da mata nativa de erva-mate
+                                <strong>Agronanobio</strong><br>
+                                <em>Industria, Comercio, Importação e Exportação Ltda</em><br><br>
+                                <strong>Endereço:</strong><br>
+                                Vicina 11, Linha Esperança, 1954<br>
+                                Serra do Tigre - Distrito de Dorizon<br>
+                                Mallet-PR - CEP: 84.570-000<br><br>
+                                <strong>CNPJ:</strong> 11.743.641/0001-52
                             </p>
                         </div>
                     </div>
@@ -39,9 +81,11 @@
                         <div class="card-body">
                             <h4 class="card-title text-success mb-3">📞 Contatos</h4>
                             <p class="card-text">
-                                <strong>Email:</strong> contato@bioaflorabrasil.com.br<br>
-                                <strong>Telefone:</strong> (00) 0000-0000<br>
-                                <strong>WhatsApp:</strong> (00) 00000-0000
+                                <strong>Email:</strong> contato@bioaflora.com.br<br>
+                                <strong>Fone/WhatsApp:</strong> (42) 99957-5280<br><br>
+                                <strong>Projeto:</strong> Bio Aflora<br>
+                                <strong>URT:</strong> Unidade de Referência Tecnológica<br>
+                                <strong>Foco:</strong> Sistema agroflorestal com erva-mate nativa
                             </p>
                         </div>
                     </div>
@@ -53,36 +97,52 @@
                     <h4 class="mb-0">💬 Envie sua Mensagem</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST">
+                    <form method="POST" id="contatoForm">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="nome" class="form-label">Nome Completo *</label>
-                                <input type="text" class="form-control" id="nome" name="nome" required>
+                                <input type="text" class="form-control" id="nome" name="nome" 
+                                       value="{{ nome or '' }}" required minlength="2">
+                                <div class="form-text">Mínimo 2 caracteres</div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">Email *</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       value="{{ email or '' }}" required>
+                                <div class="form-text">Formato: exemplo@email.com</div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="assunto" class="form-label">Assunto</label>
                             <select class="form-control" id="assunto" name="assunto">
-                                <option value="">Selecione um assunto</option>
-                                <option value="produtos">Informações sobre produtos</option>
-                                <option value="pedidos">Pedidos e vendas</option>
-                                <option value="sustentabilidade">Sustentabilidade</option>
-                                <option value="parceria">Parcerias</option>
-                                <option value="outros">Outros</option>
+                                <option value="" {% if not assunto %}selected{% endif %}>Selecione um assunto</option>
+                                <option value="produtos" {% if assunto == 'produtos' %}selected{% endif %}>🌿 Informações sobre produtos</option>
+                                <option value="pedidos" {% if assunto == 'pedidos' %}selected{% endif %}>🛒 Pedidos e vendas</option>
+                                <option value="sustentabilidade" {% if assunto == 'sustentabilidade' %}selected{% endif %}>🌱 Sustentabilidade e URT</option>
+                                <option value="parceria" {% if assunto == 'parceria' %}selected{% endif %}>🤝 Parcerias</option>
+                                <option value="outros" {% if assunto == 'outros' %}selected{% endif %}>💬 Outros assuntos</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="mensagem" class="form-label">Mensagem *</label>
                             <textarea class="form-control" id="mensagem" name="mensagem" rows="5" 
-                                      placeholder="Conte-nos como podemos ajudá-lo..." required></textarea>
+                                      placeholder="Conte-nos sobre seu interesse no Projeto Bio Aflora, erva-mate sustentável, ou como podemos ajudá-lo..." 
+                                      required minlength="10">{{ mensagem or '' }}</textarea>
+                            <div class="form-text">Mínimo 10 caracteres</div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="privacidade" required>
+                            <label class="form-check-label" for="privacidade">
+                                Concordo em compartilhar meus dados para resposta ao contato *
+                            </label>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-success btn-lg">
-                                Enviar Mensagem 📧
+                            <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                                <span class="submit-text">Enviar Mensagem 📧</span>
+                                <span class="submit-loading" style="display: none;">
+                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                    Enviando...
+                                </span>
                             </button>
                         </div>
                     </form>
@@ -172,10 +232,10 @@ function initMap() {
     const infoWindow = new google.maps.InfoWindow({
         content: `
             <div style="padding: 10px;">
-                <h5 style="color: #10b981; margin: 0 0 10px 0;">🌿 Bio Aflora Brasil</h5>
-                <p style="margin: 0 0 5px 0;"><strong>Especializada em erva-mate sustentável</strong></p>
-                <p style="margin: 0 0 5px 0;">📧 contato@bioaflorabrasil.com.br</p>
-                <p style="margin: 0;">📞 (00) 0000-0000</p>
+                <h5 style="color: #10b981; margin: 0 0 10px 0;">🌿 Agronanobio - Projeto Bio Aflora</h5>
+                <p style="margin: 0 0 5px 0;"><strong>Sistema agroflorestal com erva-mate nativa</strong></p>
+                <p style="margin: 0 0 5px 0;">📧 contato@bioaflora.com.br</p>
+                <p style="margin: 0;">📞 (42) 99957-5280</p>
             </div>
         `
     });
@@ -187,6 +247,107 @@ function initMap() {
     // Hide placeholder when map loads
     document.querySelector('.map-placeholder').style.display = 'none';
 }
+
+// JavaScript para melhorar UX do formulário
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contatoForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = submitBtn.querySelector('.submit-text');
+    const submitLoading = submitBtn.querySelector('.submit-loading');
+    
+    // Adicionar evento de submit
+    form.addEventListener('submit', function(e) {
+        // Mostrar loading
+        submitText.style.display = 'none';
+        submitLoading.style.display = 'inline-block';
+        submitBtn.disabled = true;
+        
+        // Validação adicional no cliente
+        const nome = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const mensagem = document.getElementById('mensagem').value.trim();
+        const assunto = document.getElementById('assunto').value;
+        
+        if (nome.length < 2) {
+            e.preventDefault();
+            alert('Nome deve ter pelo menos 2 caracteres');
+            resetButton();
+            return false;
+        }
+        
+        if (!isValidEmail(email)) {
+            e.preventDefault();
+            alert('Por favor, insira um email válido');
+            resetButton();
+            return false;
+        }
+        
+        if (mensagem.length < 10) {
+            e.preventDefault();
+            alert('Mensagem deve ter pelo menos 10 caracteres');
+            resetButton();
+            return false;
+        }
+        
+        // Analytics tracking - Contact form submission
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'contact_form_submit', {
+                'event_category': 'lead_generation',
+                'event_label': assunto || 'no_subject',
+                'form_type': 'contact_page'
+            });
+            
+            gtag('event', 'generate_lead', {
+                'currency': 'BRL',
+                'value': 25.0 // Contact form leads are more valuable
+            });
+        }
+        
+        // Track via dataLayer for GTM
+        if (typeof dataLayer !== 'undefined') {
+            dataLayer.push({
+                'event': 'contact_form_submission',
+                'form_location': 'contact_page',
+                'contact_subject': assunto || 'no_subject',
+                'message_length': mensagem.length,
+                'user_email_domain': email.split('@')[1]
+            });
+        }
+    });
+    
+    function resetButton() {
+        submitText.style.display = 'inline-block';
+        submitLoading.style.display = 'none';
+        submitBtn.disabled = false;
+    }
+    
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    // Auto-resize textarea
+    const textarea = document.getElementById('mensagem');
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+    
+    // Contador de caracteres
+    const charCounter = document.createElement('div');
+    charCounter.className = 'form-text text-end';
+    charCounter.style.fontSize = '12px';
+    textarea.parentNode.appendChild(charCounter);
+    
+    textarea.addEventListener('input', function() {
+        const count = this.value.length;
+        charCounter.textContent = `${count} caracteres`;
+        charCounter.style.color = count < 10 ? '#dc3545' : '#6c757d';
+    });
+    
+    // Trigger inicial
+    textarea.dispatchEvent(new Event('input'));
+});
 
 window.initMap = initMap;
 </script>

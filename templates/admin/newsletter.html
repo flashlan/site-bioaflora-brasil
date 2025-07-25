@@ -1,0 +1,325 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Newsletter - Dashboard Admin{% endblock %}
+{% block page_title %}📧 Gerenciamento da Newsletter{% endblock %}
+
+{% block content %}
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.total }}</div>
+            <div class="stat-label">
+                <i class="bi bi-people"></i>
+                Total de Inscritos
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.ativos }}</div>
+            <div class="stat-label">
+                <i class="bi bi-check-circle"></i>
+                Inscritos Ativos
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.este_mes }}</div>
+            <div class="stat-label">
+                <i class="bi bi-calendar-month"></i>
+                Novos Este Mês
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">{{ stats.dominios|length }}</div>
+            <div class="stat-label">
+                <i class="bi bi-globe"></i>
+                Domínios Únicos
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Actions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">
+                    <i class="bi bi-tools"></i>
+                    Ações Rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <a href="{{ url_for('admin_newsletter_export') }}" class="btn btn-success">
+                        <i class="bi bi-download"></i>
+                        Exportar CSV
+                    </a>
+                    <button type="button" class="btn btn-outline-primary" onclick="refreshData()">
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Atualizar Dados
+                    </button>
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#statsModal">
+                        <i class="bi bi-graph-up"></i>
+                        Ver Estatísticas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Subscribers Table -->
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">
+            <i class="bi bi-list"></i>
+            Lista de Inscritos ({{ subscribers|length }} total)
+        </h5>
+    </div>
+    <div class="card-body p-0">
+        {% if subscribers %}
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Email</th>
+                        <th>Domínio</th>
+                        <th>Data de Cadastro</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subscriber in subscribers[:50] %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <strong>{{ subscriber.email }}</strong>
+                        </td>
+                        <td>
+                            {% set domain = subscriber.email.split('@')[1] if '@' in subscriber.email else 'unknown' %}
+                            <span class="badge bg-secondary">{{ domain }}</span>
+                        </td>
+                        <td>
+                            <small class="text-muted">
+                                {{ subscriber.data_cadastro }}
+                            </small>
+                        </td>
+                        <td>
+                            {% if subscriber.get('ativo', True) %}
+                                <span class="badge bg-success">Ativo</span>
+                            {% else %}
+                                <span class="badge bg-danger">Inativo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-info btn-sm" 
+                                        onclick="showSubscriberDetails('{{ subscriber.email }}', '{{ subscriber.data_cadastro }}', {{ subscriber.get('ativo', True)|lower }})"
+                                        data-bs-toggle="modal" data-bs-target="#subscriberModal">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                {% if subscriber.get('ativo', True) %}
+                                <button class="btn btn-outline-warning btn-sm" 
+                                        onclick="toggleSubscriber('{{ subscriber.email }}', false)">
+                                    <i class="bi bi-pause"></i>
+                                </button>
+                                {% else %}
+                                <button class="btn btn-outline-success btn-sm" 
+                                        onclick="toggleSubscriber('{{ subscriber.email }}', true)">
+                                    <i class="bi bi-play"></i>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                    {% if subscribers|length > 50 %}
+                    <tr class="table-warning">
+                        <td colspan="6" class="text-center">
+                            <strong>Mostrando apenas os primeiros 50 inscritos.</strong>
+                            <a href="{{ url_for('admin_newsletter_export') }}" class="btn btn-sm btn-success ms-2">
+                                <i class="bi bi-download"></i>
+                                Ver todos no CSV
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-envelope text-muted" style="font-size: 3rem;"></i>
+            <h4 class="text-muted mt-3">Nenhum inscrito ainda</h4>
+            <p class="text-muted">Os inscritos da newsletter aparecerão aqui quando alguém se cadastrar.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Statistics Modal -->
+<div class="modal fade" id="statsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-graph-up"></i>
+                    Estatísticas Detalhadas
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6>📊 Análise por Domínio</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Domínio</th>
+                                <th>Quantidade</th>
+                                <th>Percentual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for domain, count in stats.dominios.items() %}
+                            <tr>
+                                <td><strong>{{ domain }}</strong></td>
+                                <td>{{ count }}</td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar" role="progressbar" 
+                                             style="width: {{ (count / stats.ativos * 100)|round(1) }}%">
+                                            {{ (count / stats.ativos * 100)|round(1) }}%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <hr>
+                
+                <h6>📈 Resumo Geral</h6>
+                <ul class="list-unstyled">
+                    <li><strong>Taxa de Atividade:</strong> {{ ((stats.ativos / stats.total * 100) if stats.total > 0 else 0)|round(1) }}%</li>
+                    <li><strong>Crescimento Este Mês:</strong> {{ stats.este_mes }} novos inscritos</li>
+                    <li><strong>Diversidade de Domínios:</strong> {{ stats.dominios|length }} domínios únicos</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Subscriber Details Modal -->
+<div class="modal fade" id="subscriberModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-person"></i>
+                    Detalhes do Inscrito
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Email:</dt>
+                    <dd class="col-sm-8" id="modal-email">-</dd>
+                    
+                    <dt class="col-sm-4">Data de Cadastro:</dt>
+                    <dd class="col-sm-8" id="modal-date">-</dd>
+                    
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8" id="modal-status">-</dd>
+                    
+                    <dt class="col-sm-4">Domínio:</dt>
+                    <dd class="col-sm-8" id="modal-domain">-</dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function refreshData() {
+    window.location.reload();
+}
+
+function showSubscriberDetails(email, date, isActive) {
+    document.getElementById('modal-email').textContent = email;
+    document.getElementById('modal-date').textContent = date;
+    document.getElementById('modal-status').innerHTML = isActive ? 
+        '<span class="badge bg-success">Ativo</span>' : 
+        '<span class="badge bg-danger">Inativo</span>';
+    
+    const domain = email.includes('@') ? email.split('@')[1] : 'unknown';
+    document.getElementById('modal-domain').innerHTML = `<span class="badge bg-secondary">${domain}</span>`;
+}
+
+function toggleSubscriber(email, activate) {
+    const action = activate ? 'ativar' : 'desativar';
+    
+    if (confirm(`Tem certeza que deseja ${action} o inscrito ${email}?`)) {
+        alert('⚠️ Funcionalidade de ativação/desativação será implementada em versão futura.');
+        // TODO: Implementar endpoint para ativar/desativar inscritos
+    }
+}
+
+// Auto-refresh every 5 minutes
+setTimeout(function() {
+    window.location.reload();
+}, 300000);
+
+// Add search functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Create search input
+    const cardHeader = document.querySelector('.card-header.bg-primary');
+    if (cardHeader) {
+        const searchDiv = document.createElement('div');
+        searchDiv.className = 'mt-2';
+        searchDiv.innerHTML = `
+            <input type="text" class="form-control form-control-sm" id="searchInput" 
+                   placeholder="🔍 Buscar por email..." onkeyup="filterTable()">
+        `;
+        cardHeader.appendChild(searchDiv);
+    }
+});
+
+function filterTable() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.querySelector('table tbody');
+    const rows = table.getElementsByTagName('tr');
+    
+    for (let i = 0; i < rows.length; i++) {
+        const emailCell = rows[i].getElementsByTagName('td')[1];
+        if (emailCell) {
+            const emailText = emailCell.textContent || emailCell.innerText;
+            if (emailText.toLowerCase().indexOf(filter) > -1) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+}
+</script>
+{% endblock %}

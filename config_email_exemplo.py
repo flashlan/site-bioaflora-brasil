@@ -11,7 +11,7 @@ def enviar_email(nome, email, mensagem):
     # Configurações do servidor SMTP (exemplo Gmail)
     SMTP_SERVER = 'smtp.gmail.com'
     SMTP_PORT = 587
-    EMAIL_REMETENTE = 'contato@bioaflorabrasil.com.br'
+    EMAIL_REMETENTE = 'contato@bioaflora.com.br'
     SENHA_EMAIL = 'sua-senha-app'  # Use App Password do Gmail
     
     # Criar mensagem
@@ -22,7 +22,7 @@ def enviar_email(nome, email, mensagem):
     
     # Corpo do email
     corpo = f"""
-    Nova mensagem do site Bio Aflora Brasil:
+    Nova mensagem do site Agronanobio - Projeto Bio Aflora:
     
     Nome: {nome}
     Email: {email}

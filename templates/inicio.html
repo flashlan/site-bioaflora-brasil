@@ -1,23 +1,102 @@
 {% extends "base.html" %}
 
-{% block title %}Bio Aflora Brasil - Início{% endblock %}
+{% block title %}Bio Aflora Brasil - Erva-Mate Premium e Sustentável | Página Inicial{% endblock %}
+
+{% block meta_description %}Descubra a Bio Aflora Brasil, especializada em erva-mate premium (Ilex paraguariensis) com cultivo sustentável. Produtos orgânicos, chimarrão tradicional e proteção da mata nativa.{% endblock %}
+
+{% block meta_keywords %}erva-mate premium, chimarrão, sustentabilidade, Ilex paraguariensis, Bio Aflora Brasil, mate orgânico, produtos naturais, cultivo sustentável{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Erva-Mate Premium Bio Aflora Brasil",
+    "description": "Erva-mate premium sustentável com cultivo orgânico e proteção da mata nativa",
+    "url": "https://bioaflora.com.br",
+    "brand": {
+        "@type": "Brand",
+        "name": "Agronanobio - Projeto Bio Aflora",
+        "url": "https://bioaflora.com.br"
+    },
+    "category": "Erva-Mate",
+    "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "priceCurrency": "BRL",
+        "url": "https://bioaflora.com.br/contato"
+    },
+    "manufacturer": {
+        "@type": "Organization",
+        "name": "Agronanobio",
+        "url": "https://bioaflora.com.br"
+    }
+}
+</script>
+{% endblock %}
 
 {% block content %}
-<div class="hero-section bg-success text-white py-5">
+<div class="hero-section">
+    <!-- Elementos Flutuantes -->
+    <div class="floating-element" style="top: 20%; left: 10%; color: rgba(255,255,255,0.1); font-size: 2rem;">🌿</div>
+    <div class="floating-element" style="top: 60%; right: 15%; color: rgba(255,255,255,0.1); font-size: 1.5rem;">🧉</div>
+    <div class="floating-element" style="top: 40%; right: 10%; color: rgba(255,255,255,0.1); font-size: 1.8rem;">🌱</div>
+    
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="hero-content">
-                    <h1 class="display-4 fw-bold mb-4">Bio Aflora Brasil</h1>
-                    <p class="lead mb-4">
-                        Especializada em produtos de erva-mate premium (Ilex Paraguariensis), 
-                        unindo tradição, qualidade e sustentabilidade na proteção da erva-mate nativa.
+                    <div class="hero-badge">
+                        ✨ Projeto Bio Aflora - Sustentabilidade Premium
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Agronanobio
+                        <div style="color: rgba(255,255,255,0.9); font-size: 0.7em; font-weight: 600; margin-top: 10px;">
+                            Erva-Mate Nativa Premium
+                        </div>
+                    </h1>
+                    
+                    <p class="hero-subtitle">
+                        Sistema agroflorestal com <strong>erva-mate nativa</strong> (Ilex paraguariensis), 
+                        desenvolvendo a <strong>Unidade de Referência Tecnológica (URT)</strong> em Mallet-PR 
+                        com foco na produção orgânica sustentável.
                     </p>
-                    <a href="{{ url_for('saiba_mais') }}" class="btn btn-light btn-lg">Conheça Nossos Produtos</a>
+                    
+                    <div class="hero-cta">
+                        <a href="{{ url_for('saiba_mais') }}" class="btn btn-light btn-lg px-4 py-3">
+                            <i class="bi bi-leaf me-2"></i>
+                            Conheça o Projeto
+                        </a>
+                        <a href="{{ url_for('contato') }}" class="btn btn-outline-light btn-lg px-4 py-3">
+                            <i class="bi bi-chat-dots me-2"></i>
+                            Fale Conosco
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6 text-center">
-                <div class="mate-icon">🧉</div>
+            <div class="col-lg-6">
+                <div class="hero-visual">
+                    <div class="hero-image-container text-center">
+                        <div class="hero-icon">🧉</div>
+                        
+                        <!-- Estatísticas Visuais -->
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Orgânico</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">URT</div>
+                                <div class="stat-label">Mallet-PR</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">2024</div>
+                                <div class="stat-label">Inovação</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -43,7 +122,7 @@
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">🌱</div>
+                            <div class="product-image" role="img" aria-label="Ícone de folha verde representando chá-mate premium natural">🌱</div>
                             <h4>Chá-Mate Premium</h4>
                             <p>Chá-mate de alta qualidade com sabor autêntico e propriedades naturais preservadas.</p>
                             <div class="product-features">
@@ -54,7 +133,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">🧉</div>
+                            <div class="product-image" role="img" aria-label="Ícone de cuia de chimarrão representando erva-mate tradicional">🧉</div>
                             <h4>Erva para Chimarrão</h4>
                             <p>Erva-mate tradicional moída na medida certa para o sabor perfeito do chimarrão.</p>
                             <div class="product-features">
@@ -65,7 +144,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">🍃</div>
+                            <div class="product-image" role="img" aria-label="Ícone de folhas representando ervas com sabores naturais">🍃</div>
                             <h4>Ervas com Sabor</h4>
                             <p>Variedades especiais com sabores naturais, mantendo a essência da erva-mate.</p>
                             <div class="product-features">
@@ -81,7 +160,7 @@
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">🌿</div>
+                            <div class="product-image" role="img" aria-label="Ícone de erva representando mate com limão refrescante">🌿</div>
                             <h4>Mate com Limão</h4>
                             <p>Refrescante combinação de erva-mate premium com essência natural de limão.</p>
                             <div class="product-features">
@@ -92,7 +171,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">🌺</div>
+                            <div class="product-image" role="img" aria-label="Ícone de flor representando mate com camomila relaxante">🌺</div>
                             <h4>Mate com Camomila</h4>
                             <p>Blend suave e relaxante, perfeito para momentos de tranquilidade.</p>
                             <div class="product-features">
@@ -103,7 +182,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">🍊</div>
+                            <div class="product-image" role="img" aria-label="Ícone de laranja representando mate com sabor tropical">🍊</div>
                             <h4>Mate com Laranja</h4>
                             <p>Sabor tropical e energizante com essência natural de laranja.</p>
                             <div class="product-features">
@@ -119,7 +198,7 @@
                 <div class="row g-4">
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">🌾</div>
+                            <div class="product-image" role="img" aria-label="Ícone de grãos representando mate orgânico certificado">🌾</div>
                             <h4>Mate Orgânico</h4>
                             <p>Cultivado sem agrotóxicos, certificado orgânico para máxima pureza.</p>
                             <div class="product-features">
@@ -130,7 +209,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">⭐</div>
+                            <div class="product-image" role="img" aria-label="Ícone de estrela representando mate premium gold exclusivo">⭐</div>
                             <h4>Mate Premium Gold</h4>
                             <p>Nossa seleção mais especial, com folhas selecionadas à mão.</p>
                             <div class="product-features">
@@ -141,7 +220,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="product-showcase">
-                            <div class="product-image">🎁</div>
+                            <div class="product-image" role="img" aria-label="Ícone de presente representando kit degustação completo">🎁</div>
                             <h4>Kit Degustação</h4>
                             <p>Conjunto perfeito para conhecer toda nossa linha de produtos.</p>
                             <div class="product-features">
@@ -186,7 +265,7 @@
                 </ul>
             </div>
             <div class="col-lg-6 text-center">
-                <div class="sustainability-icon">🌳</div>
+                <div class="sustainability-icon" role="img" aria-label="Ícone de árvore representando sustentabilidade e preservação ambiental">🌳</div>
             </div>
         </div>
     </div>
